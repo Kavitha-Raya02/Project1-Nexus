@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Registration Form</title>
+ <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #000;
+background-color: #8EC5FC;
+background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+
+}
+.wrapper:hover {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  background: #8BC6EC;
+  box-shadow: 0 0 50px rgb(251, 184, 13);
+  border-radius: 20px;
+  padding: 40px;
+  overflow: hidden;
+background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+
+
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+ 
+}
+
+.wrapper .form-wrapper.sign-up {
+  overflow: hidden;
+  position: absolute;
+  top: 450px;
+  left: 0;
+  display: none;
+}
+
+h2 {
+  font-size: 30px;
+  color: #fff;
+  text-align: center;
+}
+.input-group {
+  position: relative;
+  margin: 30px 0;
+  border-bottom: 2px solid #fff;
+}
+.input-group label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+.input-group input {
+  width: 320px;
+  height: 30px;
+  font-size: 16px;
+  color: #fff;
+  padding: 0 5px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.input-group input:focus~label,
+.input-group input:valid~label {
+  top: -5px;
+}
+.remember {
+  margin: -5px 0 15px 5px;
+}
+.passwordValidation{
+  margin:-5px 0 15px 5px;
+font-size: 14px;
+}
+.remember label {
+  color: #fff;
+  font-size: 14px;
+}
+.remember label input {
+  accent-color: rgb(251, 184, 13);
+}
+button {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  background: rgb(251, 184, 13);
+  box-shadow: 0 0 10px rgb(251, 184, 13);
+  font-size: 16px;
+  color: #000;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+}
+.signUp-link {
+  font-size: 14px;
+  text-align: center;
+  margin: 15px 0;
+}
+.signUp-link p {
+  color: #fff;
+}
+.signUp-link p a {
+  color: rgb(251, 184, 13);
+  text-decoration: none;
+  font-weight: 500;
+}
+.signUp-link p a:hover {
+  text-decoration: underline;
+}
+</style>
+
+</head>
+<body>
+  <div class="wrapper">
+    <div class="form-wrapper sign-in" id="sign-in">
+      <form action="">
+        <h2>Sign-in</h2>
+        <div class="input-group">
+          <input type="text" required>
+          <label for="">Email or Username</label>
+        </div>
+        <div class="input-group">
+          <input type="password" required>
+          <label for="">Password</label>
+        </div>
+        <div class="remember">
+          <label><input type="checkbox"> Remember me</label>
+        </div>
+        <button type="submit">Login</button>
+        <div class="signUp-link">
+          <p>Don't have an account? <a href="#" class="signUpBtn-link">Sign Up</a></p>
+        </div>
+      </form>
+    </div>
+    <div class="form-wrapper sign-up" id="sign-up">
+     <form>
+        <h2>Sign Up</h2>
+        <div class="input-group">
+          <input type="text" id="username" title="Must contains lowercase letters,numbers and - " required>
+          <label for="">Username</label>
+        </div>
+        <div class="input-group">
+          <input type="email" required>
+          <label for="">Email</label>
+        </div>
+        <div class="input-group">
+          <input type="password" id="pass" title="Must contain at least one number,one uppercase and one lowercase letter, and at least 8 or more characters" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+          <label for="">Password</label>
+        </div>
+        <div class="input-group">
+          <input onkeyup="onComparePasswords()" type="password" id="cnfmPass" required>
+          <label for="">Confirm Password</label>
+        </div>
+	<div class="passwordValidation" style="color:red" id="passValidation">
+	
+	</div>
+        <div class="remember">
+          <label><input type="checkbox"> I agree to the terms & conditions</label>
+        </div>
+        <button type="submit" onclick="onSignUp()">Sign Up</button>
+        <div class="signUp-link">
+          <p>Already have an account? <a href="#" class="signInBtn-link">Sign In</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+   <script>
+const signInBtnLink = document.querySelector('.signInBtn-link');
+const signUpBtnLink = document.querySelector('.signUpBtn-link');
+const wrapper = document.querySelector('.wrapper');
+var regex = /^[a-z0-9\-]+$/;
+document.getElementById("username").setAttribute("pattern", regex.source);
+signUpBtnLink.addEventListener('click', () => {
+    wrapper.classList.toggle('active');
+document.getElementById("sign-up").style.display="contents";
+document.getElementById("sign-in").style.display="none";
+});
+signInBtnLink.addEventListener('click', () => {
+    wrapper.classList.toggle('active');
+document.getElementById("sign-in").style.display="contents";
+document.getElementById("sign-up").style.display="none";
+});
+
+function onComparePasswords(){
+var pass=document.getElementById("pass").value;
+var cnfrPass=document.getElementById("cnfmPass").value;
+if(pass!=cnfrPass){
+document.getElementById("passValidation").innerHTML=  "Confirm Password does not match";
+}
+else{
+document.getElementById("passValidation").innerHTML=""; 
+}
+
+}
+
+
+
+	</script>
+</body>
+</html>
